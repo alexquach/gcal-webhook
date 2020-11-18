@@ -46,6 +46,10 @@ def post_something():
 def index():
     return "<h1>Welcome to our server !!</h1>"
 
+@app.route('googlef18a22c4e7c917bc.html')
+def index():
+    return 'google-site-verification: googlef18a22c4e7c917bc.html'
+
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
     app.run(threaded=True, port=5000)
