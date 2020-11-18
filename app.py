@@ -44,11 +44,7 @@ def post_something():
 # A welcome message to test our server
 @app.route('/')
 def index():
-    return "<h1>Welcome to our server !!</h1>"
-
-@app.route('googlef18a22c4e7c917bc.html')
-def index():
-    return 'google-site-verification: googlef18a22c4e7c917bc.html'
+    return "<meta name="google-site-verification" content="DXxkFotbs-O1mkGoLjiusZ5wJGFYoM6luH4DCM-x7pU" /><h1>Welcome to our server !!</h1>"
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
