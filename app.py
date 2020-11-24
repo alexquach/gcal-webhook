@@ -41,16 +41,18 @@ def post_something():
             "ERROR": "no name found, please send a name."
         })
 
+
+@app.route('/webhook', methods=['POST'])
+def respond_webhook():
+    print(request.json)
+    return Response(status=200)
+
+
 # A welcome message to test our server
 @app.route('/')
 def index():
     return '<head><meta name="google-site-verification" content="DXxkFotbs-O1mkGoLjiusZ5wJGFYoM6luH4DCM-x7pU" /></head> <body><h1>Welcome to our server !!</h1></body>'
 
-
-@app.route('/webhook', methods=['POST'])
-def respond():
-    print(request.json)
-    return Response(status=200)
 
 
 if __name__ == '__main__':
