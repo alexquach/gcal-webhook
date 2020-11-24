@@ -45,6 +45,7 @@ def post_something():
 @app.route('/webhook', methods=['POST'])
 def respond_webhook():
     print(request.json)
+    print(request.headers)
     return Response(status=200)
 
 
