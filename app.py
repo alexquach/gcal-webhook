@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 app = Flask(__name__)
 
 @app.route('/getmsg/', methods=['GET'])
@@ -45,6 +45,13 @@ def post_something():
 @app.route('/')
 def index():
     return '<head><meta name="google-site-verification" content="DXxkFotbs-O1mkGoLjiusZ5wJGFYoM6luH4DCM-x7pU" /></head> <body><h1>Welcome to our server !!</h1></body>'
+
+
+@app.route('/webhook', methods=['POST'])
+def respond():
+    print(request.json)
+    return Response(status=200)
+
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
