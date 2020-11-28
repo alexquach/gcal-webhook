@@ -2,6 +2,7 @@
 import os
 import time
 import arrow
+from datetime import datetime, timedelta
 from funcy import get_in
 from flask import Flask, request, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
@@ -31,6 +32,14 @@ class Snapshot(db.Model):
         self.syncToken = syncToken
 
 
+def round_up_15_mins(tm):
+    tm += timedelta(minutes=14)
+
+    return tm - timedelta(minutes=tm.minute % 15,
+                          seconds=tm.second,
+                          microseconds=tm.microsecond)
+
+
 def parse_event_description(event):
     string_to_parse = get_in(event, ['description'], "").split(" ")
     airtable_record_id, source = string_to_parse[0], string_to_parse[1:2] or None
@@ -57,6 +66,7 @@ def create_payload_from_event(event):
             "Name": get_in(event, ["summary"]),
             "Deadline": get_in(event, ["end", "dateTime"], "")[0:10],
             "duration": parse_event_duration(event),
+            "setCalendarDate": round_up_15_mins(datetime.utcnow()).isoformat()
             "calendarEventId": get_in(event, ['id'])
         }
     }
