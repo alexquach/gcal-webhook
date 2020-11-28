@@ -105,7 +105,7 @@ def respond_webhook():
     print(request.headers)
 
     # retrieve sync token and calendar events
-    syncToken = db.session.query(app.Snapshot).order_by(app.Snapshot.id.desc()).first().syncToken
+    syncToken = db.session.query(Snapshot).order_by(Snapshot.id.desc()).first().syncToken
     events = calendar.service.events().list(calendarId=CALENDAR_ID, syncToken=syncToken).execute()
 
     # process each page

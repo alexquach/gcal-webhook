@@ -1,1 +1,1 @@
-echo $GOOGLE_CREDENTIALS > service-account-credentials.json
+echo $GOOGLE_CREDENTIALS > ./service-account-credentials.json
