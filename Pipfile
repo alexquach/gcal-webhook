@@ -8,6 +8,13 @@ verify_ssl = true
 [packages]
 flask = "*"
 gunicorn = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+flask-sqlalchemy = "*"
+google-api-python-client = "*"
+google-auth-httplib2 = "*"
+google-auth-oauthlib = "*"
+funcy = "*"
 
 [requires]
 python_version = "3.8"
