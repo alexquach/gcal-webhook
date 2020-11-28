@@ -56,7 +56,8 @@ def create_payload_from_event(event):
         "fields": {
             "Name": get_in(event, ["summary"]),
             "Deadline": get_in(event, ["end", "dateTime"], "")[0:10],
-            "duration": parse_event_duration(event)
+            "duration": parse_event_duration(event),
+            "calendarEventId": get_in(event, ['id'])
         }
     }
 
