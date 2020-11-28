@@ -66,7 +66,7 @@ def create_payload_from_event(event):
             "Name": get_in(event, ["summary"]),
             "Deadline": get_in(event, ["end", "dateTime"], "")[0:10],
             "duration": parse_event_duration(event),
-            "setCalendarDate": round_up_15_mins(datetime.utcnow()).isoformat()
+            "setCalendarDate": round_up_15_mins(datetime.utcnow()).isoformat(),
             "calendarEventId": get_in(event, ['id'])
         }
     }
