@@ -65,7 +65,7 @@ def process_new_event(event, calendar):
     """ Create an Airtable record for the new event, then link the record with the event
     """
     if get_in(event, ["status"], "cancelled") == "cancelled":
-        continue
+        return
 
     # Create Airtable Record
     payload = {"records": [create_payload_from_event(event)], "typecast": True}
