@@ -115,6 +115,7 @@ def process_event_change(events):
             airtable_record_id, source = parse_event_description(event)
 
             if not airtable_record_id:
+                print(event)
                 process_new_event(event, calendar)
                 continue            
 
