@@ -55,7 +55,7 @@ def create_payload_from_event(event):
     return {
         "fields": {
             "Name": get_in(event, ["summary"]),
-            "Deadline": get_in(event, ["end", "dateTime"])[0:10],
+            "Deadline": get_in(event, ["end", "dateTime"], "")[0:10],
             "duration": parse_event_duration(event)
         }
     }
@@ -64,6 +64,9 @@ def create_payload_from_event(event):
 def process_new_event(event, calendar):
     """ Create an Airtable record for the new event, then link the record with the event
     """
+    if get_in(event, ["status"], "cancelled") == "cancelled":
+        continue
+
     # Create Airtable Record
     payload = {"records": [create_payload_from_event(event)], "typecast": True}
     response = airtable_request("post", json=payload).json()
