@@ -75,6 +75,8 @@ def process_new_event(event, calendar):
     calendar_event_id = get_in(event, ['id'])
     calendar.patch_event(calendar_event_id, airtable_record_id)
 
+    return
+
 
 def process_deadline_change(update_fields, event, record):
     calendar_datetime = get_in(event, ["end", "dateTime"], "")[0:10]
@@ -96,6 +98,8 @@ def process_duration_change(update_fields, event, record):
         update_fields.update({
             "duration": calendar_duration
         })
+
+    return update_fields
 
 def process_event_change(events):
     """Batching airtable changes with 10 records per request 
@@ -128,6 +132,7 @@ def process_event_change(events):
                 })
 
         send_nonempty_payload(patch_payload, "patch")
+    return
 
 
 @app.route('/webhook', methods=['POST'])
