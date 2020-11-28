@@ -1,6 +1,7 @@
 # app.py
 import os
 import time
+import arrow
 from funcy import get_in
 from flask import Flask, request, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
@@ -38,10 +39,46 @@ def parse_event_description(event):
     return airtable_record_id, source
 
 
-def process_deadline_change(update_fields, event, airtable_record_id):
-    calendar_datetime = get_in(event, ['end', 'dateTime'], "")[0:10]
-    record = single_airtable_request(airtable_record_id).json()
-    airtable_datetime = get_in(record, ['fields', 'Deadline'], "")
+def parse_event_duration(event):
+    """
+
+    Returns:
+        Duration in hours (float)
+    """
+    start = get_in(event, ['start', 'dateTime'])
+    end = get_in(event, ['end', 'dateTime'])
+
+    return (arrow.get(end) - arrow.get(start)).seconds / 3600
+
+
+def create_payload_from_event(event):
+    return {
+        "fields": {
+            "Name": get_in(event, ["summary"]),
+            "Deadline": get_in(event, ["end", "dateTime"])[0:10],
+            "duration": parse_event_duration(event)
+        }
+    }
+
+
+def process_new_event(event, calendar):
+    """ Create an Airtable record for the new event, then link the record with the event
+    """
+    # Create Airtable Record
+    payload = {"records": [create_payload_from_event(event)], "typecast": True}
+    response = airtable_request("post", json=payload).json()
+
+    # get airtable id
+    airtable_record_id = response['records'][0]['id']
+
+    # attach to airtable_record_id to event description
+    calendar_event_id = get_in(event, ['id'])
+    calendar.patch_event(calendar_event_id, airtable_record_id)
+
+
+def process_deadline_change(update_fields, event, record):
+    calendar_datetime = get_in(event, ["end", "dateTime"], "")[0:10]
+    airtable_datetime = get_in(record, ["fields", "Deadline"], "")
 
     if calendar_datetime != airtable_datetime:
         update_fields.update({
@@ -51,35 +88,46 @@ def process_deadline_change(update_fields, event, airtable_record_id):
 
     return update_fields
 
+def process_duration_change(update_fields, event, record):
+    calendar_duration = parse_event_duration(event)
+    airtable_duration = get_in(record, ["fields", "duration"], 0)
 
-def processEventChange(events):
+    if calendar_duration != airtable_duration:
+        update_fields.update({
+            "duration": calendar_duration
+        })
+
+def process_event_change(events):
     """Batching airtable changes with 10 records per request 
     
     Args:
         events (List[dict]): A single page of events
     """
     if events.get('items'):
-        payload = {"records": [], "typecast": True}
+        patch_payload = {"records": [], "typecast": True}
 
         for event in events['items']:
+            patch_payload = update_payload_state(patch_payload, "patch")
             airtable_record_id, source = parse_event_description(event)
 
             if not airtable_record_id:
-                continue
+                process_new_event(event, calendar)
+                continue            
 
-            payload = update_payload_state(payload, 'patch')
-
-            update_fields = dict()
-            update_fields = process_deadline_change(update_fields, event, airtable_record_id)
+            record = single_airtable_request(airtable_record_id).json()
             time.sleep(0.2) # make sure we don't exceed 5 Airtable calls / second
+            
+            update_fields = dict()
+            update_fields = process_deadline_change(update_fields, event, record)
+            update_fields = process_duration_change(update_fields, event, record)
 
             if update_fields:
-                payload['records'].append({
+                patch_payload['records'].append({
                     "id": airtable_record_id,
                     "fields": update_fields
                 })
 
-        send_nonempty_payload(payload, 'patch')
+        send_nonempty_payload(patch_payload, "patch")
 
 
 @app.route('/webhook', methods=['POST'])
@@ -95,13 +143,13 @@ def respond_webhook():
     while events.get('nextPageToken'):
         print(len(events['items']))
 
-        processEventChange(events)
+        process_event_change(events)
 
         time.sleep(1) # to make sure we don't get an error from Gcal for too many requests
-        events = events = c.service.events().list(calendarId=CALENDAR_ID, pageToken=events['nextPageToken']).execute()
+        events = events = calendar.service.events().list(calendarId=CALENDAR_ID, pageToken=events['nextPageToken']).execute()
 
     # process last page
-    processEventChange(events)
+    process_event_change(events)
 
     # insert sync token into postgres
     new_record = Snapshot(events['nextSyncToken'])

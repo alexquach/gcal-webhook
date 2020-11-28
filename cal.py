@@ -59,12 +59,11 @@ class calendar:
         if not event_id:
             return None
 
-        event_body = dict()
+        event_body = {'description': airtable_record_id + " webhook"}
         if color_id:
             event_body.update({'colorId': color_id})
         if start:
             event_body.update({
-                'description': airtable_record_id + " webhook",
                 'start': {
                     'dateTime': start.isoformat(),
                     'timeZone': timezone,

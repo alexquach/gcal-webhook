@@ -27,6 +27,18 @@ def update_payload_state(payload, request_type):
         payload = {"records": [], "typecast": True}
     return payload
 
+def update_payload_states(patch_payload, create_payload):
+    patch_payload = update_payload_state(patch_payload, "patch")
+    create_payload = update_payload_state(create_payload, "post")
+
+    return patch_payload, create_payload
+
 def send_nonempty_payload(payload, request_type):
     if len(payload['records']) > 0:
         _ = airtable_request(request_type, json=payload)
+
+def send_nonempty_payloads(patch_payload, create_payload):
+    patch_payload = send_nonempty_payload(patch_payload, "patch")
+    create_payload = send_nonempty_payload(create_payload, "post")
+
+    return patch_payload, create_payload
