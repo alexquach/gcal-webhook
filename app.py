@@ -30,24 +30,6 @@ class Snapshot(db.Model):
         self.syncToken = syncToken
 
 
-def get_active_airtable_records():
-    """ Queries Airtable for records that have a valid deadline
-
-    Active Records are defined as:
-        Deadline set (i.e. 11/27/2020)
-        lastStatus not 'Done'
-    """
-    fields = ["Name", "Deadline", "Status", "setCalendarDate", "Deadline Group", "calendarEventId", "duration", "lastDeadline"]
-    maxRecords = 100
-    formula = "AND(NOT({Deadline}=''), NOT({lastStatus}='Done'))"
-    params = {"maxRecords": maxRecords,
-              "fields[]": fields,
-              "filterByFormula": formula}
-
-    # TODO: Error Handling
-    return airtable_request('get', params=params).json()
-
-
 def parse_event_description(event):
     string_to_parse = get_in(event, ['description'], "").split(" ")
     airtable_record_id, source = string_to_parse[0], string_to_parse[1:2] or None
@@ -63,7 +45,8 @@ def process_deadline_change(update_fields, event, airtable_record_id):
 
     if calendar_datetime != airtable_datetime:
         update_fields.update({
-            "Deadline": calendar_datetime
+            "Deadline": calendar_datetime,
+            "lastCalendarDeadline": calendar_datetime
         })
 
     return update_fields

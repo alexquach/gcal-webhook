@@ -28,7 +28,7 @@ class calendar:
         """
         event_body = {
             'summary': title,
-            'description': airtable_record_id + " s3",
+            'description': airtable_record_id + " webhook",
             'start': {
                 'dateTime': start.isoformat(),
                 'timeZone': timezone,
@@ -64,6 +64,7 @@ class calendar:
             event_body.update({'colorId': color_id})
         if start:
             event_body.update({
+                'description': airtable_record_id + " webhook",
                 'start': {
                     'dateTime': start.isoformat(),
                     'timeZone': timezone,
@@ -72,7 +73,6 @@ class calendar:
                     'dateTime': (start + timedelta(hours=duration)).isoformat(),
                     'timeZone': timezone,
                 },
-                'description': airtable_record_id + " webhook",
             })
 
         patched_event = self.service.events().patch(calendarId=self.calendar_id, eventId=event_id, body=event_body).execute()
