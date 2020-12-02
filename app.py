@@ -64,8 +64,9 @@ def create_payload_from_event(event):
     return {
         "fields": {
             "Name": get_in(event, ["summary"]),
-            "Deadline": get_in(event, ["end", "dateTime"], "")[0:10],
             "duration": parse_event_duration(event),
+            "Deadline": get_in(event, ["end", "dateTime"], "")[0:10],
+            "lastDeadline": get_in(event, ["end", "dateTime"], "")[0:10],
             "lastCalendarDeadline": get_in(event, ["end", "dateTime"], "")[0:10],
             "calendarEventId": get_in(event, ['id'])
         }
@@ -99,6 +100,7 @@ def process_deadline_change(update_fields, event, record):
     if calendar_datetime != airtable_datetime:
         update_fields.update({
             "Deadline": calendar_datetime,
+            "lastDeadline": calendar_datetime,
             "lastCalendarDeadline": calendar_datetime
         })
 
