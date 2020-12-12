@@ -297,6 +297,7 @@ def process_event_change(events):
             
             update_fields = dict()
             update_fields = process_deadline_change(update_fields, event, record)
+            update_fields = process_endtime_change(update_fields, event, record)
             update_fields = process_duration_change(update_fields, event, record)
             update_fields = process_name_change(update_fields, event, record)
             update_fields = transition_done_record(update_fields, event, record)
