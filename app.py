@@ -1,7 +1,11 @@
-# app.py
+""" app.py
+
+This module combines the Flask app, the logic to processing gcal webhooks, and updating the Postgres database
+"""
 import os
 import time
 import arrow
+from typing import Dict, Tuple
 from datetime import datetime, timedelta
 from funcy import get_in
 from flask import Flask, request, jsonify, Response
@@ -9,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from dotenv import load_dotenv
 
-import cal
+from calendar_request import Calendar
 from airtable_request import airtable_request, update_payload_state, send_nonempty_payload, single_airtable_request
 load_dotenv()
 
@@ -19,28 +23,66 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 CALENDAR_ID = os.getenv('CALENDAR_ID')
-calendar = cal.calendar(CALENDAR_ID)
+calendar = Calendar(CALENDAR_ID)
+
+GCAL_COLOR_MAPPING = {
+    "5": "Done", # yellow ish
+    "11": "Abandoned" # red ish
+} # some GCAL magic variables here
 
 
 class Snapshot(db.Model):
+    """ Snapshot defines the model for a Postgres database entry
+
+    Attributes:
+        id (int): The primary key and unique identifier for the row
+        syncToken (str): The syncToken granted by the Gcal API used for keeping track of changes
+        time_created (Datetime): Datetime when the record was inserted to Postgres
+    """
     __tablename__ = 'snapshot'
     id = db.Column(db.Integer, primary_key=True)
     syncToken = db.Column(db.String(200), unique=True)
     time_created = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-    def __init__(self, syncToken):
+    def __init__(self, syncToken: str):
+        """ Initializes Snapshot by storing the `syncToken` """
         self.syncToken = syncToken
 
 
-def round_up_15_mins(tm):
-    tm += timedelta(minutes=14)
+def round_up_15_mins(start: datetime) -> datetime:
+    """ Helper method that rounds up to the nearest 15-min interval
 
-    return tm - timedelta(minutes=tm.minute % 15,
+    Args:
+        start: The starting time
+    
+    Returns:
+        The datetime rounded up to the nearest 15-min interval
+    """
+    start += timedelta(minutes=14)
+
+    return start - timedelta(minutes=tm.minute % 15,
                           seconds=tm.second,
                           microseconds=tm.microsecond)
 
 
-def parse_event_description(event):
+def parse_event_description(event: dict) -> Tuple[str, str]:
+    """ Parses the Gcal event's description for the `airtable_record_id` and `source`
+
+    Examples:
+        >>> event['description'] = "38xfjrf30jxojr33pd201jf s3"
+        >>> parse_event_description(event)
+        ("38xfjrf30jxojr33pd201jf", "s3")
+
+        >>> event['description'] = "38xfjrf30jxojr33pd201jf"
+        >>> parse_event_description(event)
+        ("38xfjrf30jxojr33pd201jf", None)
+
+    Args:
+        event: Dictionary that stores the event's information
+    
+    Returns:
+        Tuple of `airtable_record_id` and `source`
+    """
     string_to_parse = get_in(event, ['description'], "").split(" ")
     airtable_record_id, source = string_to_parse[0], string_to_parse[1:2] or None
     if source:
@@ -48,8 +90,11 @@ def parse_event_description(event):
     return airtable_record_id, source
 
 
-def parse_event_duration(event):
-    """
+def parse_event_duration(event: dict) -> float:
+    """ Parses an Gcal event's start and endtimes to get the event duration
+
+    Args:
+        event: Dictionary that stores the event's information
 
     Returns:
         Duration in hours (float)
@@ -60,7 +105,15 @@ def parse_event_duration(event):
     return (arrow.get(end) - arrow.get(start)).seconds / 3600
 
 
-def create_payload_from_event(event):
+def create_payload_from_event(event: dict) -> Dict:
+    """ Builds an Airtable API payload to create/update the record corresponding to a Gcal event
+
+    Args:
+        event: Dictionary that stores the event's information
+
+    Returns:
+        The Airtable-friendly payload dictionary with the necessary info
+    """
     return {
         "fields": {
             "Name": get_in(event, ["summary"]),
@@ -72,8 +125,12 @@ def create_payload_from_event(event):
     }
 
 
-def process_new_event(event, calendar):
+def process_new_event(event: dict, calendar: Calendar):
     """ Create an Airtable record for the new event, then link the record with the event
+
+    Args:
+        event: Dictionary that stores the event's information
+        calendar: The :obj:`calendar_request.Calendar` associated with the calendar we're editting
     """
     if get_in(event, ["status"], "cancelled") == "cancelled":
         return
@@ -92,10 +149,23 @@ def process_new_event(event, calendar):
     return
 
 
-def process_deadline_change(update_fields, event, record):
-    """ 
-    Processes change in deadline relative to the airtable record
+def process_deadline_change(update_fields: dict, event: dict, record: dict) -> Dict:
+    """ Processes change in `Deadline` relative to the airtable record
 
+    If the calendar datetime doesn't match the airtable datetime, then it updates the airtable one
+
+    Note:
+        If there is a change from the Airtable side and the Gcal webhook side within the same minute,
+        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
+        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
+
+    Args:
+        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
+        event: event: Dictionary that stores the event's information
+        record: The individual record being processed
+
+    Returns:
+        An updated-version of `update_fields` to be sent to airtable in a patch/post request
     """
     calendar_datetime = get_in(event, ["end", "dateTime"], "")[0:10]
     airtable_datetime = get_in(record, ["fields", "Deadline"], "")
@@ -108,7 +178,24 @@ def process_deadline_change(update_fields, event, record):
 
     return update_fields
 
-def process_duration_change(update_fields, event, record):
+def process_duration_change(update_fields: dict, event: dict, record: dict) -> Dict:
+    """ Processes change in `Duration` relative to the airtable record
+
+    If the calendar duration doesn't match the airtable duration, then it updates the airtable one
+
+    Note:
+        If there is a change from the Airtable side and the Gcal webhook side within the same minute,
+        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
+        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
+
+    Args:
+        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
+        event: event: Dictionary that stores the event's information
+        record: The individual record being processed
+
+    Returns:
+        An updated-version of `update_fields` to be sent to airtable in a patch/post request
+    """
     calendar_duration = parse_event_duration(event)
     airtable_duration = get_in(record, ["fields", "duration"], 0)
 
@@ -119,11 +206,75 @@ def process_duration_change(update_fields, event, record):
 
     return update_fields
 
+def process_name_change(update_fields: dict, event: dict, record: dict) -> Dict:
+    """ Processes change in `Name` relative to the airtable record
+
+    If the calendar Name doesn't match the airtable Name, then it updates the airtable one
+
+    Note:
+        If there is a change from the Airtable side and the Gcal webhook side within the same minute,
+        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
+        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
+
+    Args:
+        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
+        event: event: Dictionary that stores the event's information
+        record: The individual record being processed
+
+    Returns:
+        An updated-version of `update_fields` to be sent to airtable in a patch/post request
+    """
+    calendar_name = get_in(event, ['summary'])
+    airtable_name = get_in(record, ["fields", "name"], 0)
+
+    if calendar_duration != airtable_duration:
+        update_fields.update({
+            "Name": calendar_duration
+        })
+
+    return update_fields
+
+def transition_done_record(update_fields: dict, event: dict, record: dict) -> Dict:
+    """ Detects whether the `color_id` of an event is changed to the color corresponding to `Done` or `Abandoned`
+
+    1. Check if the calendar event's `color_id` is changed
+    2. Get the `Status` corresponding to the `color_id`
+    3. If this Status doesn't match the airtable, then update the airtable `Status`
+
+    Note:
+        If there is a change from the Airtable side and the Gcal webhook side within the same minute,
+        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
+        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
+
+    Args:
+        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
+        event: event: Dictionary that stores the event's information
+        record: The individual record being processed
+
+    Returns:
+        An updated-version of `update_fields` to be sent to airtable in a patch/post request
+    """
+    color_id = get_in(event, ['colorId'], "")
+
+    if color_id in GCAL_COLOR_MAPPING.keys():
+        new_status = GCAL_COLOR_MAPPING[color_id]
+        airtable_status = get_in(record, ["fields", "Status"], "")
+
+        if new_status != airtable_status:
+            update_fields.update({
+                "Status": new_status
+            })
+
+    return update_fields
+
 def process_event_change(events):
     """Batching airtable changes with 10 records per request 
-    
+
     Args:
-        events (List[dict]): A single page of events
+        events (List[dict]): A single page of events 
+
+    See Also: 
+        https://developers.google.com/calendar/v3/reference/events
     """
     if events.get('items'):
         patch_payload = {"records": [], "typecast": True}
@@ -143,6 +294,8 @@ def process_event_change(events):
             update_fields = dict()
             update_fields = process_deadline_change(update_fields, event, record)
             update_fields = process_duration_change(update_fields, event, record)
+            update_fields = process_name_change(update_fields, event, record)
+            update_fields = transition_done_record(update_fields, event, record)
 
             if update_fields:
                 patch_payload['records'].append({
@@ -156,6 +309,7 @@ def process_event_change(events):
 
 @app.route('/webhook', methods=['POST'])
 def respond_webhook():
+    """ API Route that is response for handling Gcal webhooks """
     print(request.json)
     print(request.headers)
 
@@ -186,6 +340,7 @@ def respond_webhook():
 # A welcome message to test our server
 @app.route('/')
 def index():
+    """ Index route that provides google-site-verification so we can receive webhooks at this URL """
     return '<head><meta name="google-site-verification" content="DXxkFotbs-O1mkGoLjiusZ5wJGFYoM6luH4DCM-x7pU" /></head> <body><h1>Welcome to our server !!</h1></body>'
 
 
