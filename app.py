@@ -167,7 +167,7 @@ def process_deadline_change(update_fields: dict, event: dict, record: dict) -> D
     Returns:
         An updated-version of `update_fields` to be sent to airtable in a patch/post request
     """
-    calendar_starttime = get_in(event ['start', 'dateTime', ""])
+    calendar_starttime = get_in(event ['start', 'dateTime'], "")
     calendar_datetime = get_in(event, ['end',  'dateTime'], "")[0:10]
     airtable_datetime = get_in(record, ['fields', 'Deadline'], "")
 
