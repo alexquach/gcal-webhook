@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="lang:clipboard.copy" content="Copy to clipboard">
+  <meta name="lang:clipboard.copied" content="Copied to clipboard">
+  <meta name="lang:search.language" content="en">
+  <meta name="lang:search.pipeline.stopwords" content="True">
+  <meta name="lang:search.pipeline.trimmer" content="True">
+  <meta name="lang:search.result.none" content="No matching documents">
+  <meta name="lang:search.result.one" content="1 matching document">
+  <meta name="lang:search.result.other" content="# matching documents">
+  <meta name="lang:search.tokenizer" content="[\s\-]+">
+
+  
+    <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:300,400,400i,700&display=fallback" rel="stylesheet">
+
+    <style>
+      body,
+      input {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+      }
+
+      code,
+      kbd,
+      pre {
+        font-family: "Roboto Mono", "Courier New", Courier, monospace
+      }
+    </style>
+  
+
+  <link rel="stylesheet" href="../_static/stylesheets/application.css"/>
+  <link rel="stylesheet" href="../_static/stylesheets/application-palette.css"/>
+  <link rel="stylesheet" href="../_static/stylesheets/application-fixes.css"/>
+  
+  <link rel="stylesheet" href="../_static/fonts/material-icons.css"/>
+  
+  <meta name="theme-color" content="#3f51b5">
+  <script src="../_static/javascripts/modernizr.js"></script>
+  
+  
+  
+    <title>app &#8212; Google Calendar Webhook 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/material.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link href="../_static/style.css" rel="stylesheet" type="text/css">
+
+  </head>
+  <body dir=ltr
+        data-md-color-primary=light-blue data-md-color-accent=orange>
+  
+  <svg class="md-svg">
+    <defs data-children-count="0">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+      
+    </defs>
+  </svg>
+  
+  <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer">
+  <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search">
+  <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+  <a href="#_modules/app" tabindex="1" class="md-skip"> Skip to content </a>
+  <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex navheader">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../index.html" title="Google Calendar Webhook 1.0.0 documentation"
+           class="md-header-nav__button md-logo">
+          
+            &nbsp;
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          <span class="md-header-nav__topic">Google Calendar Webhook 1.0.0 documentation</span>
+          <span class="md-header-nav__topic"> app </span>
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+        
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" action="../search.html" method="GET" name="search">
+      <input type="text" class="md-search__input" name="q" placeholder="Search"
+             autocapitalize="off" autocomplete="off" spellcheck="false"
+             data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+      
+  
+  <script src="../_static/javascripts/version_dropdown.js"></script>
+  <script>
+    var json_loc = "../"versions.json"",
+        target_loc = "../../",
+        text = "Versions";
+    $( document ).ready( add_version_dropdown(json_loc, target_loc, text));
+  </script>
+  
+
+    </div>
+  </nav>
+</header>
+
+  
+  <div class="md-container">
+    
+    
+    
+  <nav class="md-tabs" data-md-component="tabs">
+    <div class="md-tabs__inner md-grid">
+      <ul class="md-tabs__list">
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Google Calendar Webhook 1.0.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">Module code</a></li>
+      </ul>
+    </div>
+  </nav>
+    <main class="md-main">
+      <div class="md-main__inner md-grid" data-md-component="container">
+        
+          <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../index.html" title="Google Calendar Webhook 1.0.0 documentation" class="md-nav__button md-logo">
+      
+        <img src="../_static/" alt=" logo" width="48" height="48">
+      
+    </a>
+    <a href="../index.html"
+       title="Google Calendar Webhook 1.0.0 documentation">Google Calendar Webhook 1.0.0 documentation</a>
+  </label>
+  
+
+  
+  <ul class="md-nav__list">
+    <li class="md-nav__item">
+    
+      <span class="md-nav__link caption"><span class="caption-text">Contents:</span></span>
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../app.html" class="md-nav__link">Webhook App</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../airtable.html" class="md-nav__link">Airtable Requests</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="../calendar.html" class="md-nav__link">Calendar Requests</a>
+      
+    
+    </li>
+  </ul>
+  
+
+</nav>
+              </div>
+            </div>
+          </div>
+          <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+            <div class="md-sidebar__scrollwrap">
+              <div class="md-sidebar__inner">
+                
+<nav class="md-nav md-nav--secondary">
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+
+<li id="searchbox" class="md-nav__item"></li>
+
+  </ul>
+</nav>
+              </div>
+            </div>
+          </div>
+        
+        <div class="md-content">
+          <article class="md-content__inner md-typeset" role="main">
+            
+  <h1 id="modules-app--page-root">Source code for app</h1><div class="highlight"><pre>
+<span></span><span class="sd">""" app.py</span>
+
+<span class="sd">This module combines the Flask app, the logic to processing gcal webhooks, and updating the Postgres database</span>
+<span class="sd">"""</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">arrow</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">funcy</span> <span class="kn">import</span> <span class="n">get_in</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.sql</span> <span class="kn">import</span> <span class="n">func</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="kn">from</span> <span class="nn">calendar_request</span> <span class="kn">import</span> <span class="n">Calendar</span>
+<span class="kn">from</span> <span class="nn">airtable_request</span> <span class="kn">import</span> <span class="n">airtable_request</span><span class="p">,</span> <span class="n">update_payload_state</span><span class="p">,</span> <span class="n">send_nonempty_payload</span><span class="p">,</span> <span class="n">single_airtable_request</span>
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">'SQLALCHEMY_DATABASE_URI'</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'DATABASE_URL'</span><span class="p">]</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">'SQLALCHEMY_TRACK_MODIFICATIONS'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">CALENDAR_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">'CALENDAR_ID'</span><span class="p">)</span>
+<span class="n">calendar</span> <span class="o">=</span> <span class="n">Calendar</span><span class="p">(</span><span class="n">CALENDAR_ID</span><span class="p">)</span>
+
+<span class="n">GCAL_COLOR_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"5"</span><span class="p">:</span> <span class="s2">"Done"</span><span class="p">,</span> <span class="c1"># yellow ish</span>
+    <span class="s2">"11"</span><span class="p">:</span> <span class="s2">"Abandoned"</span> <span class="c1"># red ish</span>
+<span class="p">}</span> <span class="c1"># some GCAL magic variables here</span>
+
+
+<div class="viewcode-block" id="Snapshot"><a class="viewcode-back" href="../app.html#app.Snapshot">[docs]</a><span class="k">class</span> <span class="nc">Snapshot</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">""" Snapshot defines the model for a Postgres database entry</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        id (int): The primary key and unique identifier for the row</span>
+<span class="sd">        syncToken (str): The syncToken granted by the Gcal API used for keeping track of changes</span>
+<span class="sd">        time_created (Datetime): Datetime when the record was inserted to Postgres</span>
+<span class="sd">    """</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">'snapshot'</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">syncToken</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">time_created</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">syncToken</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">""" Initializes Snapshot by storing the `syncToken` """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">syncToken</span> <span class="o">=</span> <span class="n">syncToken</span></div>
+
+
+<div class="viewcode-block" id="round_up_15_mins"><a class="viewcode-back" href="../app.html#app.round_up_15_mins">[docs]</a><span class="k">def</span> <span class="nf">round_up_15_mins</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+    <span class="sd">""" Helper method that rounds up to the nearest 15-min interval</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        start: The starting time</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The datetime rounded up to the nearest 15-min interval</span>
+<span class="sd">    """</span>
+    <span class="n">start</span> <span class="o">+=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">start</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">tm</span><span class="o">.</span><span class="n">minute</span> <span class="o">%</span> <span class="mi">15</span><span class="p">,</span>
+                          <span class="n">seconds</span><span class="o">=</span><span class="n">tm</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+                          <span class="n">microseconds</span><span class="o">=</span><span class="n">tm</span><span class="o">.</span><span class="n">microsecond</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="parse_event_description"><a class="viewcode-back" href="../app.html#app.parse_event_description">[docs]</a><span class="k">def</span> <span class="nf">parse_event_description</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">""" Parses the Gcal event's description for the `airtable_record_id` and `source`</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; event['description'] = "38xfjrf30jxojr33pd201jf s3"</span>
+<span class="sd">        &gt;&gt;&gt; parse_event_description(event)</span>
+<span class="sd">        ("38xfjrf30jxojr33pd201jf", "s3")</span>
+
+<span class="sd">        &gt;&gt;&gt; event['description'] = "38xfjrf30jxojr33pd201jf"</span>
+<span class="sd">        &gt;&gt;&gt; parse_event_description(event)</span>
+<span class="sd">        ("38xfjrf30jxojr33pd201jf", None)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        event: Dictionary that stores the event's information</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of `airtable_record_id` and `source`</span>
+<span class="sd">    """</span>
+    <span class="n">string_to_parse</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'description'</span><span class="p">],</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
+    <span class="n">airtable_record_id</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="n">string_to_parse</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">string_to_parse</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">source</span><span class="p">:</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">source</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">airtable_record_id</span><span class="p">,</span> <span class="n">source</span></div>
+
+
+<div class="viewcode-block" id="parse_event_duration"><a class="viewcode-back" href="../app.html#app.parse_event_duration">[docs]</a><span class="k">def</span> <span class="nf">parse_event_duration</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">""" Parses an Gcal event's start and endtimes to get the event duration</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        event: Dictionary that stores the event's information</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Duration in hours (float)</span>
+<span class="sd">    """</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'start'</span><span class="p">,</span> <span class="s1">'dateTime'</span><span class="p">])</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'end'</span><span class="p">,</span> <span class="s1">'dateTime'</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">arrow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">end</span><span class="p">)</span> <span class="o">-</span> <span class="n">arrow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">start</span><span class="p">))</span><span class="o">.</span><span class="n">seconds</span> <span class="o">/</span> <span class="mi">3600</span></div>
+
+
+<div class="viewcode-block" id="create_payload_from_event"><a class="viewcode-back" href="../app.html#app.create_payload_from_event">[docs]</a><span class="k">def</span> <span class="nf">create_payload_from_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">""" Builds an Airtable API payload to create/update the record corresponding to a Gcal event</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        event: Dictionary that stores the event's information</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The Airtable-friendly payload dictionary with the necessary info</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"fields"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"Name"</span><span class="p">:</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s2">"summary"</span><span class="p">]),</span>
+            <span class="s2">"duration"</span><span class="p">:</span> <span class="n">parse_event_duration</span><span class="p">(</span><span class="n">event</span><span class="p">),</span>
+            <span class="s2">"Deadline"</span><span class="p">:</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s2">"end"</span><span class="p">,</span> <span class="s2">"dateTime"</span><span class="p">],</span> <span class="s2">""</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span>
+            <span class="s2">"lastCalendarDeadline"</span><span class="p">:</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s2">"end"</span><span class="p">,</span> <span class="s2">"dateTime"</span><span class="p">],</span> <span class="s2">""</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span>
+            <span class="s2">"calendarEventId"</span><span class="p">:</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">])</span>
+        <span class="p">}</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="process_new_event"><a class="viewcode-back" href="../app.html#app.process_new_event">[docs]</a><span class="k">def</span> <span class="nf">process_new_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">calendar</span><span class="p">:</span> <span class="n">Calendar</span><span class="p">):</span>
+    <span class="sd">""" Create an Airtable record for the new event, then link the record with the event</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        event: Dictionary that stores the event's information</span>
+<span class="sd">        calendar: The :obj:`calendar_request.Calendar` associated with the calendar we're editting</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s2">"status"</span><span class="p">],</span> <span class="s2">"cancelled"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"cancelled"</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Create Airtable Record</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"records"</span><span class="p">:</span> <span class="p">[</span><span class="n">create_payload_from_event</span><span class="p">(</span><span class="n">event</span><span class="p">)],</span> <span class="s2">"typecast"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">airtable_request</span><span class="p">(</span><span class="s2">"post"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="c1"># get airtable id</span>
+    <span class="n">airtable_record_id</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">'records'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
+
+    <span class="c1"># attach to airtable_record_id to event description</span>
+    <span class="n">calendar_event_id</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">])</span>
+    <span class="n">calendar</span><span class="o">.</span><span class="n">patch_event</span><span class="p">(</span><span class="n">calendar_event_id</span><span class="p">,</span> <span class="n">airtable_record_id</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="process_deadline_change"><a class="viewcode-back" href="../app.html#app.process_deadline_change">[docs]</a><span class="k">def</span> <span class="nf">process_deadline_change</span><span class="p">(</span><span class="n">update_fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">""" Processes change in `Deadline` relative to the airtable record</span>
+
+<span class="sd">    If the calendar datetime doesn't match the airtable datetime, then it updates the airtable one</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        If there is a change from the Airtable side and the Gcal webhook side within the same minute,</span>
+<span class="sd">        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively</span>
+<span class="sd">        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API</span>
+<span class="sd">        event: event: Dictionary that stores the event's information</span>
+<span class="sd">        record: The individual record being processed</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An updated-version of `update_fields` to be sent to airtable in a patch/post request</span>
+<span class="sd">    """</span>
+    <span class="n">calendar_datetime</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s2">"end"</span><span class="p">,</span> <span class="s2">"dateTime"</span><span class="p">],</span> <span class="s2">""</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+    <span class="n">airtable_datetime</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="p">[</span><span class="s2">"fields"</span><span class="p">,</span> <span class="s2">"Deadline"</span><span class="p">],</span> <span class="s2">""</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">calendar_datetime</span> <span class="o">!=</span> <span class="n">airtable_datetime</span><span class="p">:</span>
+        <span class="n">update_fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">"Deadline"</span><span class="p">:</span> <span class="n">calendar_datetime</span><span class="p">,</span>
+            <span class="s2">"lastCalendarDeadline"</span><span class="p">:</span> <span class="n">calendar_datetime</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">update_fields</span></div>
+
+<div class="viewcode-block" id="process_duration_change"><a class="viewcode-back" href="../app.html#app.process_duration_change">[docs]</a><span class="k">def</span> <span class="nf">process_duration_change</span><span class="p">(</span><span class="n">update_fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">""" Processes change in `Duration` relative to the airtable record</span>
+
+<span class="sd">    If the calendar duration doesn't match the airtable duration, then it updates the airtable one</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        If there is a change from the Airtable side and the Gcal webhook side within the same minute,</span>
+<span class="sd">        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively</span>
+<span class="sd">        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API</span>
+<span class="sd">        event: event: Dictionary that stores the event's information</span>
+<span class="sd">        record: The individual record being processed</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An updated-version of `update_fields` to be sent to airtable in a patch/post request</span>
+<span class="sd">    """</span>
+    <span class="n">calendar_duration</span> <span class="o">=</span> <span class="n">parse_event_duration</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+    <span class="n">airtable_duration</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="p">[</span><span class="s2">"fields"</span><span class="p">,</span> <span class="s2">"duration"</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">calendar_duration</span> <span class="o">!=</span> <span class="n">airtable_duration</span><span class="p">:</span>
+        <span class="n">update_fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">"duration"</span><span class="p">:</span> <span class="n">calendar_duration</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">update_fields</span></div>
+
+<div class="viewcode-block" id="process_name_change"><a class="viewcode-back" href="../app.html#app.process_name_change">[docs]</a><span class="k">def</span> <span class="nf">process_name_change</span><span class="p">(</span><span class="n">update_fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">""" Processes change in `Name` relative to the airtable record</span>
+
+<span class="sd">    If the calendar Name doesn't match the airtable Name, then it updates the airtable one</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        If there is a change from the Airtable side and the Gcal webhook side within the same minute,</span>
+<span class="sd">        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively</span>
+<span class="sd">        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API</span>
+<span class="sd">        event: event: Dictionary that stores the event's information</span>
+<span class="sd">        record: The individual record being processed</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An updated-version of `update_fields` to be sent to airtable in a patch/post request</span>
+<span class="sd">    """</span>
+    <span class="n">calendar_name</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'summary'</span><span class="p">])</span>
+    <span class="n">airtable_name</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="p">[</span><span class="s2">"fields"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">calendar_name</span> <span class="o">!=</span> <span class="n">airtable_name</span><span class="p">:</span>
+        <span class="n">update_fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">"Name"</span><span class="p">:</span> <span class="n">calendar_name</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">update_fields</span></div>
+
+<div class="viewcode-block" id="transition_done_record"><a class="viewcode-back" href="../app.html#app.transition_done_record">[docs]</a><span class="k">def</span> <span class="nf">transition_done_record</span><span class="p">(</span><span class="n">update_fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">""" Detects whether the `color_id` of an event is changed to the color corresponding to `Done` or `Abandoned`</span>
+
+<span class="sd">    1. Check if the calendar event's `color_id` is changed</span>
+<span class="sd">    2. Get the `Status` corresponding to the `color_id`</span>
+<span class="sd">    3. If this Status doesn't match the airtable, then update the airtable `Status` (and `lastStatus`)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        If there is a change from the Airtable side and the Gcal webhook side within the same minute,</span>
+<span class="sd">        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively</span>
+<span class="sd">        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API</span>
+<span class="sd">        event: event: Dictionary that stores the event's information</span>
+<span class="sd">        record: The individual record being processed</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An updated-version of `update_fields` to be sent to airtable in a patch/post request</span>
+<span class="sd">    """</span>
+    <span class="n">color_id</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="s1">'colorId'</span><span class="p">],</span> <span class="s2">""</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">color_id</span> <span class="ow">in</span> <span class="n">GCAL_COLOR_MAPPING</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">new_status</span> <span class="o">=</span> <span class="n">GCAL_COLOR_MAPPING</span><span class="p">[</span><span class="n">color_id</span><span class="p">]</span>
+        <span class="n">airtable_status</span> <span class="o">=</span> <span class="n">get_in</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="p">[</span><span class="s2">"fields"</span><span class="p">,</span> <span class="s2">"Status"</span><span class="p">],</span> <span class="s2">""</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">new_status</span> <span class="o">!=</span> <span class="n">airtable_status</span><span class="p">:</span>
+            <span class="n">update_fields</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="s2">"Status"</span><span class="p">:</span> <span class="n">new_status</span><span class="p">,</span>
+                <span class="s2">"lastStatus"</span><span class="p">:</span> <span class="s2">"Done"</span><span class="p">,</span>
+            <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">update_fields</span></div>
+
+<div class="viewcode-block" id="process_event_change"><a class="viewcode-back" href="../app.html#app.process_event_change">[docs]</a><span class="k">def</span> <span class="nf">process_event_change</span><span class="p">(</span><span class="n">events</span><span class="p">):</span>
+    <span class="sd">"""Batching airtable changes with 10 records per request </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        events (List[dict]): A single page of events </span>
+
+<span class="sd">    See Also: </span>
+<span class="sd">        https://developers.google.com/calendar/v3/reference/events</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">events</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'items'</span><span class="p">):</span>
+        <span class="n">patch_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"records"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"typecast"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">[</span><span class="s1">'items'</span><span class="p">]:</span>
+            <span class="n">patch_payload</span> <span class="o">=</span> <span class="n">update_payload_state</span><span class="p">(</span><span class="n">patch_payload</span><span class="p">,</span> <span class="s2">"patch"</span><span class="p">)</span>
+            <span class="n">airtable_record_id</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="n">parse_event_description</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">airtable_record_id</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+                <span class="n">process_new_event</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">calendar</span><span class="p">)</span>
+                <span class="k">continue</span>            
+
+            <span class="n">record</span> <span class="o">=</span> <span class="n">single_airtable_request</span><span class="p">(</span><span class="n">airtable_record_id</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> <span class="c1"># make sure we don't exceed 5 Airtable calls / second</span>
+            
+            <span class="n">update_fields</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">update_fields</span> <span class="o">=</span> <span class="n">process_deadline_change</span><span class="p">(</span><span class="n">update_fields</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+            <span class="n">update_fields</span> <span class="o">=</span> <span class="n">process_duration_change</span><span class="p">(</span><span class="n">update_fields</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+            <span class="n">update_fields</span> <span class="o">=</span> <span class="n">process_name_change</span><span class="p">(</span><span class="n">update_fields</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+            <span class="n">update_fields</span> <span class="o">=</span> <span class="n">transition_done_record</span><span class="p">(</span><span class="n">update_fields</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">update_fields</span><span class="p">:</span>
+                <span class="n">patch_payload</span><span class="p">[</span><span class="s1">'records'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">"id"</span><span class="p">:</span> <span class="n">airtable_record_id</span><span class="p">,</span>
+                    <span class="s2">"fields"</span><span class="p">:</span> <span class="n">update_fields</span>
+                <span class="p">})</span>
+
+        <span class="n">send_nonempty_payload</span><span class="p">(</span><span class="n">patch_payload</span><span class="p">,</span> <span class="s2">"patch"</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="respond_webhook"><a class="viewcode-back" href="../app.html#app.respond_webhook">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">'/webhook'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'POST'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">respond_webhook</span><span class="p">():</span>
+    <span class="sd">""" API Route that is response for handling Gcal webhooks """</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+
+    <span class="c1"># retrieve sync token and calendar events</span>
+    <span class="n">syncToken</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Snapshot</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Snapshot</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">syncToken</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">events</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">calendarId</span><span class="o">=</span><span class="n">CALENDAR_ID</span><span class="p">,</span> <span class="n">syncToken</span><span class="o">=</span><span class="n">syncToken</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+    <span class="c1"># process each page</span>
+    <span class="k">while</span> <span class="n">events</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'nextPageToken'</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="s1">'items'</span><span class="p">]))</span>
+
+        <span class="n">process_event_change</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># to make sure we don't get an error from Gcal for too many requests</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">events</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">service</span><span class="o">.</span><span class="n">events</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">calendarId</span><span class="o">=</span><span class="n">CALENDAR_ID</span><span class="p">,</span> <span class="n">pageToken</span><span class="o">=</span><span class="n">events</span><span class="p">[</span><span class="s1">'nextPageToken'</span><span class="p">])</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+    <span class="c1"># process last page</span>
+    <span class="n">process_event_change</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+
+    <span class="c1"># insert sync token into postgres</span>
+    <span class="n">new_record</span> <span class="o">=</span> <span class="n">Snapshot</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="s1">'nextSyncToken'</span><span class="p">])</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_record</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></div>
+
+
+<span class="c1"># A welcome message to test our server</span>
+<div class="viewcode-block" id="index"><a class="viewcode-back" href="../app.html#app.index">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="sd">""" Index route that provides google-site-verification so we can receive webhooks at this URL """</span>
+    <span class="k">return</span> <span class="s1">'&lt;head&gt;&lt;meta name="google-site-verification" content="DXxkFotbs-O1mkGoLjiusZ5wJGFYoM6luH4DCM-x7pU" /&gt;&lt;/head&gt; &lt;body&gt;&lt;h1&gt;Welcome to our server !!&lt;/h1&gt;&lt;/body&gt;'</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="c1"># Threaded option to enable multiple instances for multiple user access support</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">threaded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="md-footer">
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+          
+          
+        </a>
+        
+      </nav>
+    </div>
+    <div class="md-footer-meta md-typeset">
+      <div class="md-footer-meta__inner md-grid">
+        <div class="md-footer-copyright">
+          <div class="md-footer-copyright__highlight">
+              &#169; Copyright 2020, Alex Quach.
+              
+          </div>
+            Created using
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+             and
+            <a href="https://github.com/bashtage/sphinx-material/">Material for
+              Sphinx</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="../_static/javascripts/application.js"></script>
+  <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+article.md-content__inner > h2 {
+    background-color: linen;
+}
+article.md-content__inner > h2::before{
+    background-color: white;
+}
+dl.class > dt {
+    background-color: aqua;
+}
+dl.function > dt {
+    background-color: powderblue;
+}
