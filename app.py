@@ -175,7 +175,7 @@ def process_deadline_change(update_fields: dict, event: dict, record: dict) -> D
         update_fields.update({
             "Deadline": calendar_datetime,
             "lastCalendarDeadline": calendar_datetime,
-            "startTime": arrow.get(calendar_starttime)).isoformat(),
+            "startTime": arrow.get(calendar_starttime).isoformat(),
         })
 
     return update_fields
