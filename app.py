@@ -227,9 +227,9 @@ def process_name_change(update_fields: dict, event: dict, record: dict) -> Dict:
     calendar_name = get_in(event, ['summary'])
     airtable_name = get_in(record, ["fields", "name"], 0)
 
-    if calendar_duration != airtable_duration:
+    if calendar_name != airtable_name:
         update_fields.update({
-            "Name": calendar_duration
+            "Name": calendar_name
         })
 
     return update_fields
@@ -239,7 +239,7 @@ def transition_done_record(update_fields: dict, event: dict, record: dict) -> Di
 
     1. Check if the calendar event's `color_id` is changed
     2. Get the `Status` corresponding to the `color_id`
-    3. If this Status doesn't match the airtable, then update the airtable `Status`
+    3. If this Status doesn't match the airtable, then update the airtable `Status` (and `lastStatus`)
 
     Note:
         If there is a change from the Airtable side and the Gcal webhook side within the same minute,
@@ -262,7 +262,8 @@ def transition_done_record(update_fields: dict, event: dict, record: dict) -> Di
 
         if new_status != airtable_status:
             update_fields.update({
-                "Status": new_status
+                "Status": new_status,
+                "lastStatus": "Done",
             })
 
     return update_fields
