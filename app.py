@@ -149,15 +149,36 @@ def process_new_event(event: dict, calendar: Calendar):
     return
 
 
-def process_deadline_change(update_fields: dict, event: dict, record: dict) -> Dict:
-    """ Processes change in `Deadline` relative to the airtable record
+def process_change(update_fields: dict, calendar_feature, airtable_feature, airtable_field_names: list) -> Dict:
+    """ Processes change in `calendar_feature` relative to the airtable record
 
-    If the calendar datetime doesn't match the airtable datetime, then it updates the airtable one
+    If the `calendar_feature` doesn't match the `airtable_feature`, then it updates the `airtable_feature`
 
     Note:
         If there is a change from the Airtable side and the Gcal webhook side within the same minute,
         the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
         instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
+
+    Args:
+        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
+        calendar_feature: The feature in the calendar's event to be compared
+        airtable_feature: The feature in the Airtable's record to be compared
+        airtable_field_names: A list of the fields to be updated in Airtable with the `calendar_feature` value
+
+    Returns:
+        An updated-version of `update_fields` to be sent to airtable in a patch/post request
+    """
+    if calendar_feature != airtable_feature:
+        for field in airtable_field_names:
+            update_fields.update({
+                field: calendar_feature,
+            })
+
+    return update_fields
+
+
+def process_deadline_change(update_fields: dict, event: dict, record: dict) -> Dict:
+    """ Processes change in `Deadline` relative to the airtable record
 
     Args:
         update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
@@ -167,28 +188,27 @@ def process_deadline_change(update_fields: dict, event: dict, record: dict) -> D
     Returns:
         An updated-version of `update_fields` to be sent to airtable in a patch/post request
     """
-    calendar_starttime = get_in(event, ['start', 'dateTime'], "")
     calendar_datetime = get_in(event, ['end',  'dateTime'], "")[0:10]
     airtable_datetime = get_in(record, ['fields', 'Deadline'], "")
+    return process_change(update_fields, calendar_datetime, airtable_datetime, ['Deadline', 'lastCalendarDeadline'])
 
-    if calendar_datetime != airtable_datetime:
-        update_fields.update({
-            "Deadline": calendar_datetime,
-            "lastCalendarDeadline": calendar_datetime,
-            "startTime": arrow.get(calendar_starttime).isoformat(),
-        })
+def process_endtime_change(update_fields: dict, event: dict, record: dict) -> Dict:
+    """ Processes change in `endTime` relative to the airtable record
 
-    return update_fields
+    Args:
+        update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
+        event: event: Dictionary that stores the event's information
+        record: The individual record being processed
+
+    Returns:
+        An updated-version of `update_fields` to be sent to airtable in a patch/post request
+    """
+    calendar_endtime = get_in(event, ['end', 'dateTime'], "")
+    airtable_endtime = get_in(record, ['fields', 'endTime'], "")
+    return process_change(update_fields, calendar_endtime, airtable_endtime, ['endTime'])
 
 def process_duration_change(update_fields: dict, event: dict, record: dict) -> Dict:
     """ Processes change in `Duration` relative to the airtable record
-
-    If the calendar duration doesn't match the airtable duration, then it updates the airtable one
-
-    Note:
-        If there is a change from the Airtable side and the Gcal webhook side within the same minute,
-        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
-        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
 
     Args:
         update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
@@ -200,23 +220,10 @@ def process_duration_change(update_fields: dict, event: dict, record: dict) -> D
     """
     calendar_duration = parse_event_duration(event)
     airtable_duration = get_in(record, ["fields", "duration"], 0)
-
-    if calendar_duration != airtable_duration:
-        update_fields.update({
-            "duration": calendar_duration
-        })
-
-    return update_fields
+    return process_change(update_fields, calendar_duration, airtable_duration, ['Duration'])
 
 def process_name_change(update_fields: dict, event: dict, record: dict) -> Dict:
     """ Processes change in `Name` relative to the airtable record
-
-    If the calendar Name doesn't match the airtable Name, then it updates the airtable one
-
-    Note:
-        If there is a change from the Airtable side and the Gcal webhook side within the same minute,
-        the Airtable change will likely win out, since it changes on a minute basis, while the webhook is relatively
-        instantaneous, therefore the Airtable change will be acting on top of the Gcal webhook change.
 
     Args:
         update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
@@ -228,13 +235,7 @@ def process_name_change(update_fields: dict, event: dict, record: dict) -> Dict:
     """
     calendar_name = get_in(event, ['summary'])
     airtable_name = get_in(record, ["fields", "name"], 0)
-
-    if calendar_name != airtable_name:
-        update_fields.update({
-            "Name": calendar_name
-        })
-
-    return update_fields
+    return process_change(update_fields, calendar_name, airtable_name, ['Name'])
 
 def transition_done_record(update_fields: dict, event: dict, record: dict) -> Dict:
     """ Detects whether the `color_id` of an event is changed to the color corresponding to `Done` or `Abandoned`
