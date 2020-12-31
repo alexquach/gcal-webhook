@@ -264,6 +264,7 @@ def transition_done_record(update_fields: dict, event: dict, record: dict) -> Di
         new_status = GCAL_COLOR_MAPPING[color_id]
         airtable_status = get_in(record, ["fields", "Status"], "")
 
+        print(f'Changed-Color? : new({new_status}) and air({airtable_status})')
         if new_status != airtable_status:
             update_fields.update({
                 "Status": new_status,

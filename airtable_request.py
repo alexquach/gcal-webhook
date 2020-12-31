@@ -80,8 +80,10 @@ def send_nonempty_payload(payload: dict, request_type: str):
         payload: Airtable API-friendly dictionary with contents of request
         request_type: String denoting what type of request ("get", "post", "patch) etc
     """
+    print(payload)
     if len(payload['records']) > 0:
         _ = airtable_request(request_type, json=payload)
+        print(_)
 
 def send_nonempty_payloads(patch_payload: dict, create_payload: dict):
     """ Method to abstract paging from 2 sets of payloads (patch + post) at the end of paging iteration
