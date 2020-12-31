@@ -209,7 +209,7 @@ def process_endtime_change(update_fields: dict, event: dict, record: dict) -> Di
     return process_change(update_fields, calendar_endtime, airtable_endtime, ['endTime'])
 
 def process_duration_change(update_fields: dict, event: dict, record: dict) -> Dict:
-    """ Processes change in `Duration` relative to the airtable record
+    """ Processes change in `duration` relative to the airtable record
 
     Args:
         update_fields: The payload dictionary that will be sent in a patch/post request to the Airtable API
@@ -221,7 +221,7 @@ def process_duration_change(update_fields: dict, event: dict, record: dict) -> D
     """
     calendar_duration = parse_event_duration(event)
     airtable_duration = get_in(record, ["fields", "duration"], 0)
-    return process_change(update_fields, calendar_duration, airtable_duration, ['Duration'])
+    return process_change(update_fields, calendar_duration, airtable_duration, ['duration'])
 
 def process_name_change(update_fields: dict, event: dict, record: dict) -> Dict:
     """ Processes change in `Name` relative to the airtable record
