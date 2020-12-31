@@ -168,6 +168,7 @@ def process_change(update_fields: dict, calendar_feature, airtable_feature, airt
     Returns:
         An updated-version of `update_fields` to be sent to airtable in a patch/post request
     """
+    print(f'{airtable_field_names}: cal({calendar_feature}) and air({airtable_feature})')
     if calendar_feature != airtable_feature:
         for field in airtable_field_names:
             update_fields.update({
