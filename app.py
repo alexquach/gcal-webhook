@@ -313,6 +313,40 @@ def process_event_change(events):
         send_nonempty_payload(patch_payload, "patch")
     return
 
+def get_todays_information() -> Dict:
+    """ Queries Airtable API for records from the current day 
+
+    Retrieves the following fields:
+        - Name: Main string identifier for the record
+        - Deadline: String in the format (MM/DD/YYYY)
+        - Status: Kanban-esque status ("Todo"/"In Progress"/"Done"/etc)
+        - Deadline Group: Grouping of deadlines (Grouped by weeks + Today/Backlog)
+        - calendarEventId: Corresponding Gcal calendar event id for the record
+        - duration: estimated duration of event/task (in hours)
+        - lastDeadline: the previous state of the `Deadline` field, used for sync'ing purposes
+        - lastCalendarDeadline: the previous state of the `Deadline` field from the Calendar webhook,
+            also used for sync'ing purposes to know when webhook last editted record
+
+    The formula queries for Today's Records, which are defined as:
+        - Deadline set to the current date (i.e. 11/27/2020)
+
+    Returns:
+        Dict with the response from Airtable for the get request
+    """
+    fields = ["Name", "Deadline", "Status", "Deadline Group", "calendarEventId", "duration", 
+        "lastDeadline", "lastCalendarDeadline", "lastName"]
+    maxRecords = 100
+
+    today_datetime = datetime.today() - timedelta(hours=7)
+    today_formated = today_datetime.strftime("%Y-%m-%d")
+
+    formula = f"{{Deadline}}=DATETIME_PARSE('{today_formated}', 'YYYY-MM-DD')"
+    params = {"maxRecords": maxRecords,
+              "fields[]": fields,
+              "filterByFormula": formula}
+
+    # TODO: Error Handling
+    return airtable_request('get', params=params).json()
 
 @app.route('/webhook', methods=['POST'])
 def respond_webhook():
@@ -344,6 +378,16 @@ def respond_webhook():
     return Response(status=200)
 
 
+@app.route('/day', methods=['GET'])
+def respond_day():
+    """ API Route that is response for handling requests for today's information (used by Desktop + Mobile app) """
+    print(request.json)
+    print(request.headers)
+
+    # TODO: Authentication with hashes
+
+    return get_todays_information()
+
 # A welcome message to test our server
 @app.route('/')
 def index():
@@ -355,3 +399,5 @@ def index():
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
     app.run(threaded=True, port=5000)
+    # res = get_todays_information()
+    # print(res)
