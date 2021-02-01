@@ -334,7 +334,7 @@ def get_todays_information() -> Dict:
         Dict with the response from Airtable for the get request
     """
     fields = ["Name", "Deadline", "Status", "Deadline Group", "calendarEventId", "duration", 
-        "lastDeadline", "lastCalendarDeadline", "lastName"]
+        "endTime", "Notes"]
     maxRecords = 100
 
     today_datetime = datetime.today() - timedelta(hours=7)
